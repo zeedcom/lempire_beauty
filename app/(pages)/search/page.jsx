@@ -1,51 +1,90 @@
 import { ProductCard } from "@/app/components/Products";
-import { algoliasearch } from "algoliasearch";
 import SearchBox from "./components/SearchBox";
 
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
+
 const getProducts = async (text) => {
-  if (!text) {
+  if (!text || text.trim() === "") {
     return [];
   }
-  const client = algoliasearch(
-    process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
-    process.env.NEXT_PUBLIC_ALGOLIA_APP_KEY
+
+  const searchText = text.toLowerCase().trim();
+
+  const snapshot = await getDocs(
+    query(
+      collection(db, "products"),
+      orderBy("timestampCreate", "desc")
+    )
   );
-  const search = await client.searchForHits({
-    requests: [
-      {
-        indexName: "products",
-        query: text,
-        hitsPerPage: 20,
-      },
-    ],
-  });
-  const hits = search.results[0]?.hits;
-  return hits ?? [];
+
+  return snapshot.docs
+    .map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+    .filter((product) => {
+      const title = product.title?.toLowerCase() || "";
+      const shortDescription =
+        product.shortDescription?.toLowerCase() || "";
+      const description =
+        product.description?.toLowerCase() || "";
+
+      return (
+        title.includes(searchText) ||
+        shortDescription.includes(searchText) ||
+        description.includes(searchText)
+      );
+    });
 };
 
 export default async function Page({ searchParams }) {
   const { q } = searchParams;
+
   const products = await getProducts(q);
+
   return (
-    <main className="flex flex-col gap-1 min-h-screen p-5">
+    <main className="flex flex-col gap-5 min-h-screen p-5">
       <SearchBox />
-      <div className="flex flex-col gap-1 justify-center items-center">
-        <h1 className="text-xs text-gray-500">Powered By</h1>
-        <img src="/algolia.png" className="h-5" alt="Algolia Logo" />
-      </div>
-      {products?.length != 0 && (
-        <div className="w-full flex justify-center">
-          <div className="flex flex-col gap-5 max-w-[900px] p-5">
-            <h1 className="text-center font-semibold text-lg">
-              Products for {q}
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-              {products?.map((item) => {
-                return <ProductCard product={item} key={item?.id} />;
-              })}
-            </div>
+
+      {q && (
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold">
+            Search Results
+          </h1>
+          <p className="text-gray-500">
+            {products.length} product(s) found for "{q}"
+          </p>
+        </div>
+      )}
+
+      {products.length > 0 ? (
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 max-w-7xl">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            ))}
           </div>
         </div>
+      ) : (
+        q && (
+          <div className="text-center py-16">
+            <h2 className="text-xl font-semibold">
+              No products found
+            </h2>
+            <p className="text-gray-500 mt-2">
+              Try another keyword.
+            </p>
+          </div>
+        )
       )}
     </main>
   );

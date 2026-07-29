@@ -6,7 +6,6 @@ import {
   setDoc,
   Timestamp,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const createNewProduct = async ({ data, featureImage, imageList }) => {
   if (!data?.title) {
@@ -15,17 +14,66 @@ export const createNewProduct = async ({ data, featureImage, imageList }) => {
   if (!featureImage) {
     throw new Error("Feature Image is required");
   }
-  const featureImageRef = ref(storage, `products/${featureImage?.name}`);
-  await uploadBytes(featureImageRef, featureImage);
-  const featureImageURL = await getDownloadURL(featureImageRef);
 
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", featureImage);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `products/${featureImage?.name}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const featureImageURL = dataimg.secure_url;
+
+/*=================================== */
   let imageURLList = [];
 
   for (let i = 0; i < imageList?.length; i++) {
     const image = imageList[i];
-    const imageRef = ref(storage, `products/${image?.name}`);
-    await uploadBytes(imageRef, image);
-    const url = await getDownloadURL(imageRef);
+
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", image);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `products/${image?.name}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const url = dataimg.secure_url;
+
+/*=================================== */
     imageURLList.push(url);
   }
 
@@ -51,18 +99,68 @@ export const updateProduct = async ({ data, featureImage, imageList }) => {
   let featureImageURL = data?.featureImageURL ?? "";
 
   if (featureImage) {
-    const featureImageRef = ref(storage, `products/${featureImage?.name}`);
-    await uploadBytes(featureImageRef, featureImage);
-    featureImageURL = await getDownloadURL(featureImageRef);
+    
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", featureImage);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `products/${featureImage?.name}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const featureImageURL = dataimg.secure_url;
+
+/*=================================== */
   }
 
   let imageURLList = imageList?.length === 0 ? data?.imageList : [];
 
   for (let i = 0; i < imageList?.length; i++) {
     const image = imageList[i];
-    const imageRef = ref(storage, `products/${image?.name}`);
-    await uploadBytes(imageRef, image);
-    const url = await getDownloadURL(imageRef);
+    
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", image);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `products/${image?.name}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const url = dataimg.secure_url;
+
+/*=================================== */
     imageURLList.push(url);
   }
 

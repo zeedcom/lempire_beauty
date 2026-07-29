@@ -7,41 +7,36 @@ import Link from "next/link";
 import Slider from "react-slick";
 
 export default function Categories({ categories }) {
-  var settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          infinite: true,
-          dots: true,
-        },
+  const settings = {
+  dots: true,
+  infinite: categories.length > 5,
+  speed: 500,
+  slidesToShow: Math.min(5, categories.length),
+  slidesToScroll: Math.min(5, categories.length),
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: Math.min(4, categories.length),
+        slidesToScroll: Math.min(4, categories.length),
       },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          initialSlide: 3,
-        },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: Math.min(3, categories.length),
+        slidesToScroll: Math.min(3, categories.length),
       },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: Math.min(2, categories.length),
+        slidesToScroll: Math.min(2, categories.length),
       },
-    ],
-  };
-
+    },
+  ],
+};
   if (categories.length === 0) {
     return <></>;
   }
@@ -51,25 +46,20 @@ export default function Categories({ categories }) {
       <div className="flex justify-center w-full">
         <h1 className="text-lg font-semibold">Shop By Category</h1>
       </div>
-      <Slider {...settings}>
-        {(categories?.length <= 2
-          ? [...categories, ...categories, ...categories]
-          : categories
-        )?.map((category) => {
-          return (
-            <Link href={`/categories/${category?.id}`}>
-              <div className="px-2">
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="md:h-32 md:w-32 h-24 w-24 rounded-full md:p-5 p-2 border overflow-hidden">
-                    <img src={category?.imageURL} alt="" />
-                  </div>
-                  <h1 className="font-semibold">{category?.name}</h1>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </Slider>
+     <Slider {...settings}>
+  {categories?.map((category) => (
+    <Link href={`/categories/${category.id}`} key={category.id}>
+      <div className="px-2">
+        <div className="flex flex-col gap-2 items-center justify-center">
+          <div className="md:h-32 md:w-32 h-24 w-24 rounded-full md:p-5 p-2 border overflow-hidden">
+            <img src={category.imageURL} alt={category.name} />
+          </div>
+          <h1 className="font-semibold">{category.name}</h1>
+        </div>
+      </div>
+    </Link>
+  ))}
+</Slider>
     </div>
   );
 }

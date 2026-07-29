@@ -5,26 +5,26 @@ export default function Footer() {
     <footer className="flex flex-col gap-3 w-full bg-blue-100 border-t p-5 md:p-10">
       <div className="border-b w-full flex flex-col md:flex-row md:justify-between gap-3">
         <div className="flex">
-          <img className="h-8" src="/logo.png" alt="Logo" />
+          <img className="h-8" src="/svgs/logo.svg" alt="Logo" />
         </div>
         <div className="flex-1 flex flex-col md:flex-row justify-end gap-4">
           <div className="flex gap-2 items-center">
             <Phone size={12} className="text-blue-500" />
-            <h2 className="text-sm text-gray-600">+91 910 XXXXXXX</h2>
+            <h2 className="text-sm text-gray-600">+213 778123778</h2>
           </div>
           <div className="flex gap-2 items-center">
             <Mail size={12} className="text-blue-500" />
-            <h2 className="text-sm text-gray-600">rajendraaverma@gmail.com</h2>
+            <h2 className="text-sm text-gray-600">contact.zeedcom@gmail.com</h2>
           </div>
           <div className="flex gap-2 items-center">
             <MapPin size={12} className="text-blue-500" />
-            <h2 className="text-sm text-gray-600">New Delhi</h2>
+            <h2 className="text-sm text-gray-600">Baraki,Algirs,Algeria</h2>
           </div>
         </div>
       </div>
       <div className="flex justify-center w-full">
         <h3 className="text-xs text-gray-700">
-          © 2024 . All rights reserved by [APNA NAAM]
+          © 2024 . All rights reserved by ZEEDCOM
         </h3>
       </div>
     </footer>

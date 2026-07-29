@@ -7,7 +7,6 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const createNewCollection = async ({ data, image }) => {
   if (!image) {
@@ -20,10 +19,35 @@ export const createNewCollection = async ({ data, image }) => {
     throw new Error("Products is required");
   }
   const newId = doc(collection(db, `ids`)).id;
-  const imageRef = ref(storage, `collections/${newId}`);
-  await uploadBytes(imageRef, image);
-  const imageURL = await getDownloadURL(imageRef);
 
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", image);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `collections/${newId}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const imageURL = dataimg.secure_url;
+
+console.log(imageURL);
+/*=================================== */
   await setDoc(doc(db, `collections/${newId}`), {
     ...data,
     id: newId,
@@ -48,9 +72,34 @@ export const updateCollection = async ({ data, image }) => {
   let imageURL = data?.imageURL;
 
   if (image) {
-    const imageRef = ref(storage, `collections/${id}`);
-    await uploadBytes(imageRef, image);
-    imageURL = await getDownloadURL(imageRef);
+    
+   /*  ===========================*/
+const formData = new FormData();
+
+formData.append("file", image);
+formData.append(
+  "upload_preset",
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+);
+formData.append("folder", `collections/${newId}`);
+
+const response = await fetch(
+  `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Failed to upload image to Cloudinary"+response);
+}
+
+const dataimg = await response.json();
+
+const imageURL = dataimg.secure_url;
+
+/*=================================== */
   }
 
   await updateDoc(doc(db, `collections/${id}`), {
