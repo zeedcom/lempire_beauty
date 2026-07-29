@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { admin, adminDB } from "@/lib/firebase_admin";
@@ -69,10 +71,22 @@ const processOrder = async ({ checkout }) => {
 };
 
 export default async function Page({ searchParams }) {
-  const { checkout_id } = searchParams;
-  const checkout = await fetchCheckout(checkout_id);
+  const checkout_id = searchParams?.checkout_id;
 
-  const result = await processOrder({ checkout });
+  if (!checkout_id) {
+    return (
+      <main>
+        <Header />
+        <section className="min-h-screen flex justify-center items-center">
+          <h1>Invalid checkout request.</h1>
+        </section>
+        <Footer />
+      </main>
+    );
+  }
+
+  const checkout = await fetchCheckout(checkout_id);
+  await processOrder({ checkout });
 
   return (
     <main>
