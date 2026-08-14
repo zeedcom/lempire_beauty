@@ -62,7 +62,7 @@ function Contact() {
               {"ContactUs"}
             </span>
             <h2 className="text-[35px] font-semibold">
-              {"ContactUsTitle"}
+              {" "}
             </h2>
           </div>
           <div className="flex flex-wrap justify-between mb-12 lg:mb-0">
@@ -85,7 +85,7 @@ function Contact() {
               <div>
                 <h5 className="text-lg font-semibold mb-6">{"OurLocation"}</h5>
                 <p className="text-base text-body-color">
-                  {"OurLocationContent"}
+                  {"Baraki Algiers"}
                 </p>
               </div>
             </div>
@@ -104,7 +104,7 @@ function Contact() {
               </div>
               <div>
                 <h5 className="text-lg font-semibold mb-6">{"HowCanWeHelp"}</h5>
-                <p className="text-base text-body-color">contact.zeedcom@gmail.com</p>
+                <p className="text-base text-body-color">Sidalirazali11@gmail.com</p>
                 
               </div>
             </div>

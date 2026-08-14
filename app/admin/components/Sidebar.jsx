@@ -11,6 +11,7 @@ import {
   PackageOpen,
   ShieldCheck,
   ShoppingCart,
+  Map,
   Star,
   User,
 } from "lucide-react";
@@ -59,6 +60,12 @@ export default function Sidebar() {
       name: "Collections",
       link: "/admin/collections",
       icon: <LibraryBig className="h-5 w-5" />,
+    },
+    ,
+    {
+      name: "Shippings",
+      link: "/admin/shippings",
+      icon: <Map className="h-5 w-5" />,
     },
     {
       name: "Admins",

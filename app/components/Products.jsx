@@ -41,9 +41,9 @@ export function ProductCard({ product }) {
       </Link>
       <div className="">
         <h2 className="text-green-500 text-sm font-semibold">
-          ₹ {product?.salePrice}{" "}
+          DZD {product?.salePrice}{" "}
           <span className="line-through text-xs text-gray-600">
-            ₹ {product?.price}
+            DZD {product?.price}
           </span>
         </h2>
       </div>

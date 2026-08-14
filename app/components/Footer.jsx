@@ -5,17 +5,14 @@ export default function Footer() {
     <footer className="flex flex-col gap-3 w-full bg-blue-100 border-t p-5 md:p-10">
       <div className="border-b w-full flex flex-col md:flex-row md:justify-between gap-3">
         <div className="flex">
-          <img className="h-8" src="/svgs/logo.svg" alt="Logo" />
+          <img className="h-8" src="/logo.png" alt="Logo" />
         </div>
         <div className="flex-1 flex flex-col md:flex-row justify-end gap-4">
           <div className="flex gap-2 items-center">
             <Phone size={12} className="text-blue-500" />
-            <h2 className="text-sm text-gray-600">+213 778123778</h2>
+            <h2 className="text-sm text-gray-600">+213 541406883</h2>
           </div>
-          <div className="flex gap-2 items-center">
-            <Mail size={12} className="text-blue-500" />
-            <h2 className="text-sm text-gray-600">contact.zeedcom@gmail.com</h2>
-          </div>
+
           <div className="flex gap-2 items-center">
             <MapPin size={12} className="text-blue-500" />
             <h2 className="text-sm text-gray-600">Baraki,Algirs,Algeria</h2>

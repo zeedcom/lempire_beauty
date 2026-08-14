@@ -5,109 +5,255 @@ import Header from "@/app/components/Header";
 import { admin, adminDB } from "@/lib/firebase_admin";
 import Link from "next/link";
 
+
+/**
+ * Get COD checkout
+ */
 const fetchCheckout = async (checkoutId) => {
   const list = await adminDB
     .collectionGroup("checkout_sessions_cod")
     .where("id", "==", checkoutId)
     .get();
+
   if (list.docs.length === 0) {
     throw new Error("Invalid Checkout ID");
   }
+
   return list.docs[0].data();
 };
 
+
+/**
+ * Process COD order
+ */
 const processOrder = async ({ checkout }) => {
-  const order = await adminDB.doc(`orders/${checkout?.id}`).get();
+  const orderRef = adminDB.doc(
+    `orders/${checkout?.id}`
+  );
+
+  const order = await orderRef.get();
+
   if (order.exists) {
     return false;
   }
+
   const uid = checkout?.metadata?.uid;
 
-  await adminDB.doc(`orders/${checkout?.id}`).set({
+  if (!uid) {
+    throw new Error("User ID not found");
+  }
+
+  /*
+   * Get totals from checkout
+   */
+  const productTotal =
+    Number(checkout?.productTotal) || 0;
+
+  const shippingPrice =
+    Number(checkout?.shippingPrice) || 0;
+
+  const totalPrice =
+    Number(checkout?.totalPrice) ||
+    productTotal + shippingPrice;
+
+
+  /*
+   * Save order
+   */
+  await orderRef.set({
     checkout: checkout,
+
     payment: {
-      amount: checkout?.line_items?.reduce((prev, curr) => {
-        return prev + curr?.price_data?.unit_amount * curr?.quantity;
-      }, 0),
+      amount: totalPrice,
+
+      productTotal: productTotal,
+
+      shippingPrice: shippingPrice,
+
+      totalPrice: totalPrice,
+
+      currency: "DZD",
     },
+
     uid: uid,
+
     id: checkout?.id,
+
     paymentMode: "cod",
-    timestampCreate: admin.firestore.Timestamp.now(),
+
+    timestampCreate:
+      admin.firestore.Timestamp.now(),
   });
 
-  const productList = checkout?.line_items?.map((item) => {
-    return {
-      productId: item?.price_data?.product_data?.metadata?.productId,
-      quantity: item?.quantity,
-    };
-  });
 
-  const user = await adminDB.doc(`users/${uid}`).get();
+  /*
+   * Get ordered products
+   */
+  const productList =
+    checkout?.line_items?.map((item) => ({
+      productId: item?.productId,
+      quantity:
+        Number(item?.quantity) || 1,
+    })) ?? [];
 
-  const productIdsList = productList?.map((item) => item?.productId);
 
-  const newCartList = (user?.data()?.carts ?? []).filter(
-    (cartItem) => !productIdsList.includes(cartItem?.id)
+  /*
+   * Get user
+   */
+  const userRef = adminDB.doc(
+    `users/${uid}`
   );
 
-  await adminDB.doc(`users/${uid}`).set(
+  const user = await userRef.get();
+
+
+  /*
+   * Remove products from cart
+   */
+  const productIdsList =
+    productList
+      .map((item) => item.productId)
+      .filter(Boolean);
+
+
+  const newCartList =
+    (user?.data()?.carts ?? []).filter(
+      (cartItem) =>
+        !productIdsList.includes(
+          cartItem?.id
+        )
+    );
+
+
+  await userRef.set(
     {
       carts: newCartList,
     },
-    { merge: true }
+    {
+      merge: true,
+    }
   );
 
-  const batch = adminDB.batch();
 
-  productList?.forEach((item) => {
-    batch.update(adminDB.doc(`products/${item?.productId}`), {
-      orders: admin.firestore.FieldValue.increment(item?.quantity),
+  /*
+   * Update product orders
+   */
+  const validProducts =
+    productList.filter(
+      (item) => item?.productId
+    );
+
+
+  if (validProducts.length > 0) {
+
+    const batch = adminDB.batch();
+
+    validProducts.forEach((item) => {
+
+      const productRef = adminDB.doc(
+        `products/${item.productId}`
+      );
+
+      batch.update(productRef, {
+        orders:
+          admin.firestore.FieldValue.increment(
+            item.quantity
+          ),
+      });
+
     });
-  });
 
-  await batch.commit();
+    await batch.commit();
+  }
+
   return true;
 };
 
-export default async function Page({ searchParams }) {
-  const checkout_id = searchParams?.checkout_id;
 
+export default async function Page({
+  searchParams,
+}) {
+
+  const checkout_id =
+    searchParams?.checkout_id;
+
+
+  /*
+   * Check checkout ID
+   */
   if (!checkout_id) {
+
     return (
-      <main>
+      <>
+
         <Header />
-        <section className="min-h-screen flex justify-center items-center">
-          <h1>Invalid checkout request.</h1>
-        </section>
+
+        <main className="min-h-[60vh] flex items-center justify-center">
+
+          <h1 className="text-xl font-semibold">
+            Invalid checkout request.
+          </h1>
+
+        </main>
+
         <Footer />
-      </main>
+
+      </>
     );
   }
 
-  const checkout = await fetchCheckout(checkout_id);
-  await processOrder({ checkout });
+
+  /*
+   * Fetch checkout
+   */
+  const checkout =
+    await fetchCheckout(
+      checkout_id
+    );
+
+
+  /*
+   * Process order
+   */
+  await processOrder({
+    checkout,
+  });
+
 
   return (
-    <main>
+    <>
+
       <Header />
-      <section className="min-h-screen flex flex-col gap-3 justify-center items-center">
-        <div className="flex justify-center w-full">
-          <img src="/svgs/Mobile payments-rafiki.svg" className="h-48" alt="" />
-        </div>
-        <h1 className="text-2xl font-semibold text-green">
+
+      <main className="min-h-[60vh] flex flex-col items-center justify-center gap-5">
+
+        <h1 className="text-3xl font-bold">
+
           Your Order Is{" "}
-          <span className="font-bold text-green-600">Successfully</span> Placed
+
+          <span className="text-green-600">
+            Successfully Placed
+          </span>
+
         </h1>
-        <div className="flex items-center gap-4 text-sm">
-          <Link href={"/account"}>
-            <button className="text-blue-600 border border-blue-600 px-5 py-2 rounded-lg bg-white">
-              Go To Orders Page
-            </button>
-          </Link>
-        </div>
-      </section>
+
+
+        <p className="text-gray-500">
+          Thank you for your order.
+        </p>
+
+
+        <Link
+          href="/account"
+          className="bg-black text-white px-6 py-3 rounded-lg"
+        >
+          Go To Orders Page
+        </Link>
+
+      </main>
+
       <Footer />
-    </main>
+
+    </>
   );
 }

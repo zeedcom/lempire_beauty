@@ -19,7 +19,7 @@ export default function CountMeter() {
       <Card
         imgURL={"/profit-up.png"}
         title={"Revenue"}
-        value={`₹ ${(ordersCounts?.totalRevenue ?? 0) / 100}`}
+        value={`${Number(ordersCounts?.totalRevenue ?? 0).toLocaleString("fr-DZ")} DZD`}
       />
       <Card imgURL={"/team.png"} title={"Customer"} value={totalUsers ?? 0} />
     </section>
