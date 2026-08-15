@@ -27,6 +27,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /communes/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /orders/{id} {
       allow read: if isAdmin() || request.auth.uid == resource.data.uid;
       allow write: if isAdmin();

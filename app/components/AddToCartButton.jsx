@@ -9,34 +9,54 @@ import toast from "react-hot-toast";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function AddToCartButton({ productId, type }) {
+  const t = useTranslations("Cart");
+
   const { user } = useAuth();
   const { data } = useUser({ uid: user?.uid });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const isAdded = data?.carts?.find((item) => item?.id === productId);
+  const isAdded = data?.carts?.find(
+    (item) => item?.id === productId
+  );
 
   const handlClick = async () => {
     setIsLoading(true);
+
     try {
       if (!user?.uid) {
         router.push("/login");
-        throw new Error("Please Logged In First!");
+        throw new Error(t("loginRequired"));
       }
+
       if (isAdded) {
-        const newList = data?.carts?.filter((item) => item?.id != productId);
-        await updateCarts({ list: newList, uid: user?.uid });
+        const newList = data?.carts?.filter(
+          (item) => item?.id !== productId
+        );
+
+        await updateCarts({
+          list: newList,
+          uid: user?.uid,
+        });
       } else {
         await updateCarts({
-          list: [...(data?.carts ?? []), { id: productId, quantity: 1 }],
+          list: [
+            ...(data?.carts ?? []),
+            {
+              id: productId,
+              quantity: 1,
+            },
+          ],
           uid: user?.uid,
         });
       }
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.message || t("updateError"));
     }
+
     setIsLoading(false);
   };
 
@@ -47,10 +67,9 @@ export default function AddToCartButton({ productId, type }) {
         isDisabled={isLoading}
         onClick={handlClick}
         variant="bordered"
-        className=""
       >
-        {!isAdded && "Add To Cart"}
-        {isAdded && "Click To Remove"}
+        {!isAdded && t("addToCart")}
+        {isAdded && t("removeFromCart")}
       </Button>
     );
   }
@@ -62,14 +81,19 @@ export default function AddToCartButton({ productId, type }) {
         isDisabled={isLoading}
         onClick={handlClick}
         variant="bordered"
-        className=""
         color="primary"
         size="sm"
       >
-        {!isAdded && <AddShoppingCartIcon className="text-xs" />}
-        {isAdded && <ShoppingCartIcon className="text-xs" />}
-        {!isAdded && "Add To Cart"}
-        {isAdded && "Click To Remove"}
+        {!isAdded && (
+          <AddShoppingCartIcon className="text-xs" />
+        )}
+
+        {isAdded && (
+          <ShoppingCartIcon className="text-xs" />
+        )}
+
+        {!isAdded && t("addToCart")}
+        {isAdded && t("removeFromCart")}
       </Button>
     );
   }
@@ -82,9 +106,19 @@ export default function AddToCartButton({ productId, type }) {
       variant="flat"
       isIconOnly
       size="sm"
+      aria-label={
+        isAdded
+          ? t("removeFromCart")
+          : t("addToCart")
+      }
     >
-      {!isAdded && <AddShoppingCartIcon className="text-xs" />}
-      {isAdded && <ShoppingCartIcon className="text-xs" />}
+      {!isAdded && (
+        <AddShoppingCartIcon className="text-xs" />
+      )}
+
+      {isAdded && (
+        <ShoppingCartIcon className="text-xs" />
+      )}
     </Button>
   );
 }

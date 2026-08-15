@@ -1,0 +1,253 @@
+{
+  "ForgotPassword": {
+    "title": "Mot de passe oublié",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "sendButton": "Envoyer le lien de réinitialisation",
+    "signIn": "Se connecter",
+    "success": "Le lien de réinitialisation a été envoyé à votre e-mail !",
+    "error": "Échec de l'envoi du lien de réinitialisation."
+  },
+
+  "Login": {
+    "title": "Connexion avec e-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "login": "Se connecter",
+    "createAccount": "Nouveau ? Créer un compte",
+    "forgotPassword": "Mot de passe oublié ?",
+    "google": "Se connecter avec Google",
+    "success": "Connexion réussie",
+    "error": "Échec de la connexion"
+  },
+
+  "SignUp": {
+    "title": "Créer un compte avec e-mail",
+    "namePlaceholder": "Entrez votre nom",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "signUp": "Créer un compte",
+    "alreadyUser": "Vous avez déjà un compte ? Se connecter",
+    "success": "Compte créé avec succès",
+    "error": "Échec de la création du compte"
+  },
+
+  "OrderSuccess": {
+    "title": "Votre commande a été passée avec succès",
+    "goToOrders": "Voir la page de mes commandes",
+    "imageAlt": "Paiement réussi"
+  },
+
+  "PaymentFailed": {
+    "title": "Votre paiement n'a pas abouti",
+    "shop": "Boutique",
+    "retry": "Réessayer",
+    "imageAlt": "Échec du paiement"
+  },
+
+  "Favorites": {
+    "title": "Favoris",
+    "empty": "Veuillez ajouter des produits à vos favoris",
+    "emptyImageAlt": "Aucun produit favori"
+  },
+
+  "Checkout": {
+    "shippingAddress": "Adresse de livraison",
+    "fullName": "Nom complet",
+    "mobileNumber": "Numéro de téléphone",
+    "selectWilaya": "Sélectionner une wilaya",
+    "selectDaira": "Sélectionner une daïra",
+    "selectCommune": "Sélectionner une commune",
+    "shippingPrice": "Frais de livraison",
+    "orderNotes": "Remarques concernant votre commande, par exemple des instructions particulières pour la livraison",
+
+    "products": "Produits",
+    "productTotal": "Total des produits",
+    "shipping": "Livraison",
+    "total": "Total",
+
+    "paymentMode": "Mode de paiement",
+    "prepaid": "Paiement prépayé",
+    "cashOnDelivery": "Paiement à la livraison",
+
+    "agreeWith": "J'accepte les",
+    "termsAndConditions": "conditions générales",
+
+    "placeOrder": "Passer la commande",
+    "loading": "Chargement...",
+    "orderSuccess": "Commande passée avec succès !",
+
+    "errors": {
+      "loadCommunes": "Échec du chargement des communes",
+      "invalidCommunes": "Format du fichier communes.json invalide",
+      "productPrice": "Le prix du produit doit être supérieur à 0",
+      "emptyProductList": "La liste des produits est vide",
+      "addressRequired": "Veuillez remplir tous les détails de l'adresse",
+      "communeRequired": "Veuillez sélectionner une commune",
+      "shippingUnavailable": "Les frais de livraison ne sont pas disponibles pour cette wilaya",
+      "somethingWentWrong": "Une erreur s'est produite"
+    }
+  },
+
+  "CheckoutPage": {
+    "title": "Commande",
+    "productsNotFound": "Produits introuvables",
+    "error": "Une erreur s'est produite lors du chargement des produits."
+  },
+
+  "Cart": {
+    "title": "Panier",
+    "empty": "Veuillez ajouter des produits au panier",
+    "emptyImageAlt": "Panier vide",
+    "checkout": "Passer la commande",
+
+    "confirmRemove": "Êtes-vous sûr de vouloir supprimer ce produit ?",
+    "remove": "Supprimer",
+    "removeError": "Échec de la suppression du produit.",
+    "updateError": "Échec de la mise à jour de la quantité.",
+
+    "productImage": "Image du produit",
+    "increaseQuantity": "Augmenter la quantité",
+    "decreaseQuantity": "Diminuer la quantité",
+
+    "addToCart": "Ajouter au panier",
+    "removeFromCart": "Cliquer pour supprimer",
+    "loginRequired": "Veuillez d'abord vous connecter"
+  },
+
+  "Orders": {
+    "title": "Mes commandes",
+    "empty": "Vous n'avez aucune commande",
+    "emptyImageAlt": "Aucune commande",
+    "productImage": "Image du produit",
+
+    "products": "Produits",
+    "shipping": "Livraison",
+    "total": "Total",
+
+    "shippingAddress": "Adresse de livraison",
+    "note": "Remarque",
+
+    "paymentModes": {
+      "cod": "Paiement à la livraison",
+      "prepaid": "Paiement prépayé"
+    },
+
+    "statuses": {
+      "pending": "En attente"
+    }
+  },
+
+  "Categories": {
+    "title": "Acheter par catégorie"
+  },
+
+  "Collections": {
+    "shopNow": "ACHETER MAINTENANT"
+  },
+
+  "Footer": {
+    "rights": "Tous droits réservés à ZEEDCOM"
+  },
+
+  "Header": {
+    "home": "Accueil",
+    "contact": "Contact",
+    "searchProducts": "Rechercher des produits",
+    "myAccount": "Mon compte"
+  },
+
+  "Logout": {
+    "button": "Se déconnecter",
+    "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "loading": "Déconnexion...",
+    "success": "Déconnexion réussie",
+    "error": "Échec de la déconnexion"
+  },
+
+  "Products": {
+    "title": "Produits",
+    "outOfStock": "Rupture de stock",
+    "buyNow": "Acheter maintenant"
+  },
+
+  "FeaturedProducts": {
+    "newFashion": "NOUVELLE COLLECTION",
+    "buyNow": "ACHETER MAINTENANT",
+    "productImage": "Image du produit"
+  },
+
+  "CategoryPage": {
+    "category": "Catégorie"
+  },
+
+  "CollectionPage": {
+    "collection": "Collection"
+  },
+
+  "Contact": {
+    "contactUs": "Contactez-nous",
+    "ourLocation": "Notre emplacement",
+    "location": "Baraki, Alger, Algérie",
+    "howCanWeHelp": "Comment pouvons-nous vous aider ?",
+    "contactForm": "Formulaire de contact",
+
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Adam Gelius",
+
+    "email": "E-mail",
+    "emailPlaceholder": "example@yourmail.com",
+
+    "phone": "Téléphone",
+    "phonePlaceholder": "+213 541 406 883",
+
+    "message": "Message",
+    "messagePlaceholder": "Écrivez votre message ici...",
+
+    "sendMessage": "Envoyer le message",
+
+    "messageSent": "Message envoyé",
+    "reply": "Nous vous répondrons bientôt",
+    "ok": "OK"
+  },
+
+  "Search": {
+    "inputPlaceholder": "Entrez le nom du produit...",
+    "searchButton": "Rechercher",
+    "resultsTitle": "Résultats de recherche",
+    "productsFound": "{count} produit(s) trouvé(s) pour \"{query}\"",
+    "noProducts": "Aucun produit trouvé",
+    "tryAnother": "Essayez un autre mot-clé."
+  },
+
+  "Product": {
+    "title": "Produit",
+
+    "AddReview": {
+      "title": "Évaluer ce produit",
+      "placeholder": "Donnez votre avis sur ce produit...",
+      "submit": "Envoyer",
+      "loginRequired": "Veuillez d'abord vous connecter",
+      "success": "Avis envoyé avec succès",
+      "error": "Une erreur s'est produite"
+    },
+
+    "Details": {
+      "buyNow": "Acheter maintenant",
+      "outOfStock": "Rupture de stock",
+      "failedToLoad": "Échec du chargement"
+    },
+
+    "RelatedProducts": {
+      "title": "Produits similaires"
+    },
+
+    "Reviews": {
+      "title": "Avis",
+      "confirmDelete": "Êtes-vous sûr ?",
+      "loginRequired": "Veuillez d'abord vous connecter",
+      "success": "Avis supprimé avec succès",
+      "error": "Une erreur s'est produite",
+      "delete": "Supprimer l'avis"
+    }
+  }
+}

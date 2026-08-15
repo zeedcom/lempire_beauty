@@ -1,0 +1,226 @@
+{
+  "ForgotPassword": {
+    "title": "Forgot Password",
+    "emailPlaceholder": "Enter Your Email",
+    "sendButton": "Send Reset Link",
+    "signIn": "Sign In",
+    "success": "Reset link has been sent to your email!",
+    "error": "Failed to send reset link."
+  },
+
+  "Login": {
+    "title": "Login With Email",
+    "emailPlaceholder": "Enter Your Email",
+    "passwordPlaceholder": "Enter Your Password",
+    "login": "Login",
+    "createAccount": "New? Create Account",
+    "forgotPassword": "Forgot Password?",
+    "google": "Sign In With Google",
+    "success": "Logged in successfully",
+    "error": "Login failed"
+  },
+
+  "SignUp": {
+    "title": "Sign Up With Email",
+    "namePlaceholder": "Enter Your Name",
+    "emailPlaceholder": "Enter Your Email",
+    "passwordPlaceholder": "Enter Your Password",
+    "signUp": "Sign Up",
+    "alreadyUser": "Already a user? Sign In",
+    "success": "Successfully signed up",
+    "error": "Sign up failed"
+  },
+
+  "OrderSuccess": {
+    "title": "Your Order Has Been Successfully Placed",
+    "goToOrders": "Go To Orders Page",
+    "imageAlt": "Payment successful"
+  },
+
+  "PaymentFailed": {
+    "title": "Your Payment Was Not Successful",
+    "shop": "Shop",
+    "retry": "Retry",
+    "imageAlt": "Payment failed"
+  },
+  "Favorites": {
+    "title": "Favorites",
+    "empty": "Please Add Products To Favorites",
+    "emptyImageAlt": "No favorite products"
+  },
+  "Checkout": {
+  "shippingAddress": "Shipping Address",
+  "fullName": "Full Name",
+  "mobileNumber": "Mobile Number",
+  "selectWilaya": "Select Wilaya",
+  "selectDaira": "Select Daira",
+  "selectCommune": "Select Commune",
+  "shippingPrice": "Shipping Price",
+  "orderNotes": "Notes about your order, e.g. special notes for delivery",
+
+  "products": "Products",
+  "productTotal": "Product Total",
+  "shipping": "Shipping",
+  "total": "Total",
+
+  "paymentMode": "Payment Mode",
+  "prepaid": "Prepaid",
+  "cashOnDelivery": "Cash On Delivery",
+
+  "agreeWith": "I agree with the",
+  "termsAndConditions": "terms & conditions",
+
+  "placeOrder": "Place Order",
+  "loading": "Loading...",
+  "orderSuccess": "Successfully Placed!",
+
+  "errors": {
+    "loadCommunes": "Failed to load communes",
+    "invalidCommunes": "Invalid communes.json format",
+    "productPrice": "Product price should be greater than 0",
+    "emptyProductList": "Product List Is Empty",
+    "addressRequired": "Please Fill All Address Details",
+    "communeRequired": "Please Select A Commune",
+    "shippingUnavailable": "Shipping price is not available for this Wilaya",
+    "somethingWentWrong": "Something went wrong"
+  }
+},
+
+"CheckoutPage": {
+  "title": "Checkout",
+  "productsNotFound": "Products Not Found",
+  "error": "Something went wrong while loading the products."
+},"Cart": {
+  "title": "Cart",
+  "empty": "Please Add Products To Cart",
+  "emptyImageAlt": "Empty cart",
+  "checkout": "Checkout",
+
+  "confirmRemove": "Are you sure you want to remove this product?",
+  "remove": "Remove",
+  "removeError": "Failed to remove product.",
+  "updateError": "Failed to update quantity.",
+
+  "productImage": "Product image",
+  "increaseQuantity": "Increase quantity",
+  "decreaseQuantity": "Decrease quantity",
+  "addToCart": "Ajouter au panier",
+  "removeFromCart": "Cliquer pour supprimer",
+  "loginRequired": "Veuillez d'abord vous connecter"
+  
+},"Orders": {
+  "title": "My Orders",
+  "empty": "You have no orders",
+  "emptyImageAlt": "No orders",
+  "productImage": "Product Image",
+
+  "products": "Products",
+  "shipping": "Shipping",
+  "total": "Total",
+
+  "shippingAddress": "Shipping Address",
+  "note": "Note",
+
+  "paymentModes": {
+    "cod": "COD",
+    "prepaid": "Prepaid"
+  },
+
+  "statuses": {
+    "pending": "Pending"
+  }
+},"Categories": {
+  "title": "Shop By Category"
+},
+"Collections": {
+  "shopNow": "SHOP NOW"
+},
+"Footer": {
+  "rights": "All rights reserved by ZEEDCOM"
+},"Header": {
+  "home": "Home",
+  "contact": "Contact",
+  "searchProducts": "Search Products",
+  "myAccount": "My Account"
+},"Logout": {
+  "button": "Logout",
+  "confirm": "Are you sure you want to log out?",
+  "loading": "Logging out...",
+  "success": "Successfully logged out",
+  "error": "Failed to log out"
+},"Products": {
+  "title": "Products",
+  "outOfStock": "Out Of Stock",
+  "buyNow": "Buy Now"
+},"FeaturedProducts": {
+  "newFashion": "NEW FASHION",
+  "buyNow": "BUY NOW",
+  "productImage": "Product image"
+},"CategoryPage": {
+  "category": "Category"
+},"CollectionPage": {
+  "collection": "Collection"
+},
+  "Contact": {
+    "contactUs": "Contact Us",
+    "ourLocation": "Our Location",
+    "location": "Baraki, Algiers, Algeria",
+    "howCanWeHelp": "How Can We Help?",
+    "contactForm": "Contact Form",
+
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Adam Gelius",
+
+    "email": "Email",
+    "emailPlaceholder": "example@yourmail.com",
+
+    "phone": "Phone",
+    "phonePlaceholder": "+213 541 406 883",
+
+    "message": "Message",
+    "messagePlaceholder": "Write your message here...",
+
+    "sendMessage": "Send Message",
+
+    "messageSent": "Message Sent",
+    "reply": "We will get back to you soon",
+    "ok": "OK"
+  
+},
+  "Search": {
+    "inputPlaceholder": "Enter Product Name...",
+    "searchButton": "Search",
+    "resultsTitle": "Search Results",
+    "productsFound": "{count} product(s) found for \"{query}\"",
+    "noProducts": "No products found",
+    "tryAnother": "Try another keyword."
+  },"Product": {
+    "title": "المنتج",
+    "AddReview": {
+      "title": "Rate This Product",
+      "placeholder": "Enter your thoughts on this product...",
+      "submit": "Submit",
+      "loginRequired": "Please log in first",
+      "success": "Successfully submitted",
+      "error": "Something went wrong"
+    },
+    "Details": {
+      "buyNow": "Buy Now",
+      "outOfStock": "Out Of Stock",
+      "failedToLoad": "Failed To Load"
+    },
+    "RelatedProducts": {
+  "title": "Related Products"
+},
+    "Reviews": {
+      "title": "Reviews",
+      "confirmDelete": "Are you sure?",
+      "loginRequired": "Please log in first",
+      "success": "Successfully deleted",
+      "error": "Something went wrong",
+      "delete": "Delete review"
+    }
+  }
+
+
+}

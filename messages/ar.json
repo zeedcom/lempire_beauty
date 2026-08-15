@@ -1,0 +1,253 @@
+{
+  "ForgotPassword": {
+    "title": "نسيت كلمة المرور",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "sendButton": "إرسال رابط إعادة التعيين",
+    "signIn": "تسجيل الدخول",
+    "success": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني!",
+    "error": "فشل إرسال رابط إعادة التعيين."
+  },
+
+  "Login": {
+    "title": "تسجيل الدخول بالبريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "login": "تسجيل الدخول",
+    "createAccount": "مستخدم جديد؟ إنشاء حساب",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "google": "تسجيل الدخول باستخدام Google",
+    "success": "تم تسجيل الدخول بنجاح",
+    "error": "فشل تسجيل الدخول"
+  },
+
+  "SignUp": {
+    "title": "إنشاء حساب بالبريد الإلكتروني",
+    "namePlaceholder": "أدخل اسمك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "signUp": "إنشاء حساب",
+    "alreadyUser": "لديك حساب بالفعل؟ تسجيل الدخول",
+    "success": "تم إنشاء الحساب بنجاح",
+    "error": "فشل إنشاء الحساب"
+  },
+
+  "OrderSuccess": {
+    "title": "تم تأكيد طلبك بنجاح",
+    "goToOrders": "الذهاب إلى صفحة الطلبات",
+    "imageAlt": "تم الدفع بنجاح"
+  },
+
+  "PaymentFailed": {
+    "title": "لم تتم عملية الدفع بنجاح",
+    "shop": "المتجر",
+    "retry": "إعادة المحاولة",
+    "imageAlt": "فشل الدفع"
+  },
+
+  "Favorites": {
+    "title": "المفضلة",
+    "empty": "يرجى إضافة منتجات إلى المفضلة",
+    "emptyImageAlt": "لا توجد منتجات مفضلة"
+  },
+
+  "Checkout": {
+    "shippingAddress": "عنوان التوصيل",
+    "fullName": "الاسم الكامل",
+    "mobileNumber": "رقم الهاتف",
+    "selectWilaya": "اختر الولاية",
+    "selectDaira": "اختر الدائرة",
+    "selectCommune": "اختر البلدية",
+    "shippingPrice": "سعر التوصيل",
+    "orderNotes": "ملاحظات حول طلبك، مثل ملاحظات خاصة بالتوصيل",
+
+    "products": "المنتجات",
+    "productTotal": "مجموع المنتجات",
+    "shipping": "التوصيل",
+    "total": "المجموع",
+
+    "paymentMode": "طريقة الدفع",
+    "prepaid": "الدفع المسبق",
+    "cashOnDelivery": "الدفع عند الاستلام",
+
+    "agreeWith": "أوافق على",
+    "termsAndConditions": "الشروط والأحكام",
+
+    "placeOrder": "تأكيد الطلب",
+    "loading": "جارٍ التحميل...",
+    "orderSuccess": "تم تأكيد الطلب بنجاح!",
+
+    "errors": {
+      "loadCommunes": "فشل تحميل البلديات",
+      "invalidCommunes": "تنسيق ملف communes.json غير صالح",
+      "productPrice": "يجب أن يكون سعر المنتج أكبر من 0",
+      "emptyProductList": "قائمة المنتجات فارغة",
+      "addressRequired": "يرجى ملء جميع تفاصيل العنوان",
+      "communeRequired": "يرجى اختيار البلدية",
+      "shippingUnavailable": "سعر التوصيل غير متوفر لهذه الولاية",
+      "somethingWentWrong": "حدث خطأ ما"
+    }
+  },
+
+  "CheckoutPage": {
+    "title": "إتمام الطلب",
+    "productsNotFound": "لم يتم العثور على المنتجات",
+    "error": "حدث خطأ أثناء تحميل المنتجات."
+  },
+
+  "Cart": {
+    "title": "السلة",
+    "empty": "يرجى إضافة منتجات إلى السلة",
+    "emptyImageAlt": "السلة فارغة",
+    "checkout": "إتمام الطلب",
+
+    "confirmRemove": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟",
+    "remove": "حذف",
+    "removeError": "فشل حذف المنتج.",
+    "updateError": "فشل تحديث الكمية.",
+
+    "productImage": "صورة المنتج",
+    "increaseQuantity": "زيادة الكمية",
+    "decreaseQuantity": "تقليل الكمية",
+
+    "addToCart": "أضف إلى السلة",
+    "removeFromCart": "اضغط للحذف",
+    "loginRequired": "يرجى تسجيل الدخول أولاً"
+  },
+
+  "Orders": {
+    "title": "طلباتي",
+    "empty": "ليس لديك أي طلبات",
+    "emptyImageAlt": "لا توجد طلبات",
+    "productImage": "صورة المنتج",
+
+    "products": "المنتجات",
+    "shipping": "التوصيل",
+    "total": "المجموع",
+
+    "shippingAddress": "عنوان التوصيل",
+    "note": "ملاحظة",
+
+    "paymentModes": {
+      "cod": "الدفع عند الاستلام",
+      "prepaid": "الدفع المسبق"
+    },
+
+    "statuses": {
+      "pending": "قيد الانتظار"
+    }
+  },
+
+  "Categories": {
+    "title": "تسوق حسب الفئة"
+  },
+
+  "Collections": {
+    "shopNow": "تسوق الآن"
+  },
+
+  "Footer": {
+    "rights": "جميع الحقوق محفوظة لدى ZEEDCOM"
+  },
+
+  "Header": {
+    "home": "الرئيسية",
+    "contact": "اتصل بنا",
+    "searchProducts": "البحث عن المنتجات",
+    "myAccount": "حسابي"
+  },
+
+  "Logout": {
+    "button": "تسجيل الخروج",
+    "confirm": "هل أنت متأكد من رغبتك في تسجيل الخروج؟",
+    "loading": "جارٍ تسجيل الخروج...",
+    "success": "تم تسجيل الخروج بنجاح",
+    "error": "فشل تسجيل الخروج"
+  },
+
+  "Products": {
+    "title": "المنتجات",
+    "outOfStock": "غير متوفر",
+    "buyNow": "اشترِ الآن"
+  },
+
+  "FeaturedProducts": {
+    "newFashion": "تشكيلة جديدة",
+    "buyNow": "اشترِ الآن",
+    "productImage": "صورة المنتج"
+  },
+
+  "CategoryPage": {
+    "category": "الفئة"
+  },
+
+  "CollectionPage": {
+    "collection": "المجموعة"
+  },
+
+  "Contact": {
+    "contactUs": "اتصل بنا",
+    "ourLocation": "موقعنا",
+    "location": "براقي، الجزائر، الجزائر",
+    "howCanWeHelp": "كيف يمكننا مساعدتك؟",
+    "contactForm": "نموذج الاتصال",
+
+    "fullName": "الاسم الكامل",
+    "fullNamePlaceholder": "آدم جيليوس",
+
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "example@yourmail.com",
+
+    "phone": "الهاتف",
+    "phonePlaceholder": "+213 541 406 883",
+
+    "message": "الرسالة",
+    "messagePlaceholder": "اكتب رسالتك هنا...",
+
+    "sendMessage": "إرسال الرسالة",
+
+    "messageSent": "تم إرسال الرسالة",
+    "reply": "سنقوم بالرد عليك قريبًا",
+    "ok": "حسنًا"
+  },
+
+  "Search": {
+    "inputPlaceholder": "أدخل اسم المنتج...",
+    "searchButton": "بحث",
+    "resultsTitle": "نتائج البحث",
+    "productsFound": "تم العثور على {count} منتج/منتجات لـ \"{query}\"",
+    "noProducts": "لم يتم العثور على منتجات",
+    "tryAnother": "جرب كلمة مفتاحية أخرى."
+  },
+
+  "Product": {
+    "title": "المنتج",
+
+    "AddReview": {
+      "title": "قيّم هذا المنتج",
+      "placeholder": "اكتب رأيك حول هذا المنتج...",
+      "submit": "إرسال",
+      "loginRequired": "يرجى تسجيل الدخول أولاً",
+      "success": "تم إرسال التقييم بنجاح",
+      "error": "حدث خطأ ما"
+    },
+
+    "Details": {
+      "buyNow": "اشترِ الآن",
+      "outOfStock": "غير متوفر",
+      "failedToLoad": "فشل التحميل"
+    },
+
+    "RelatedProducts": {
+      "title": "منتجات ذات صلة"
+    },
+
+    "Reviews": {
+      "title": "التقييمات",
+      "confirmDelete": "هل أنت متأكد؟",
+      "loginRequired": "يرجى تسجيل الدخول أولاً",
+      "success": "تم حذف التقييم بنجاح",
+      "error": "حدث خطأ ما",
+      "delete": "حذف التقييم"
+    }
+  }
+}
