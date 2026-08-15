@@ -4,6 +4,7 @@ import {
   Search,
   UserCircle2,
   Languages,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -63,8 +64,7 @@ export default function Header() {
     );
 
     // Make sure we have "/"
-    const newPath =
-      pathnameWithoutLocale || "/";
+    const newPath = pathnameWithoutLocale || "/";
 
     router.push(`/${newLocale}${newPath}`);
   };
@@ -82,21 +82,44 @@ export default function Header() {
         />
       </Link>
 
-      {/* Desktop Menu */}
+      {/* Navigation */}
 
-      <div className="hidden md:flex gap-2 items-center font-semibold">
-        {menuList.map((item) => {
-          return (
-            <Link
-              href={`/${locale}${item.link}`}
-              key={item.link}
+      <div className="flex gap-2 items-center font-semibold">
+        {menuList.map((item) => (
+          <Link
+            href={`/${locale}${item.link}`}
+            key={item.link}
+          >
+            <button
+              title={item.name}
+              aria-label={item.name}
+              className="text-sm px-4 py-2 rounded-lg hover:bg-gray-50 flex items-center justify-center"
             >
-              <button className="text-sm px-4 py-2 rounded-lg hover:bg-gray-50">
+              {/* Desktop */}
+
+              <span className="hidden md:inline">
                 {item.name}
-              </button>
-            </Link>
-          );
-        })}
+              </span>
+
+              {/* Mobile - Contact icon */}
+
+              {item.link === "/contact" && (
+                <MessageCircle
+                  size={16}
+                  className="md:hidden"
+                />
+              )}
+
+              {/* Mobile - Home text */}
+
+              {item.link !== "/contact" && (
+                <span className="md:hidden">
+                  {item.name}
+                </span>
+              )}
+            </button>
+          </Link>
+        ))}
       </div>
 
       {/* Actions */}
@@ -119,7 +142,7 @@ export default function Header() {
             </span>
           </button>
 
-          {/* Dropdown */}
+          {/* Language Dropdown */}
 
           <div
             className="
