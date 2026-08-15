@@ -32,9 +32,11 @@
   },
 
   "OrderSuccess": {
-    "title": "Votre commande a été passée avec succès",
-    "goToOrders": "Voir la page de mes commandes",
-    "imageAlt": "Paiement réussi"
+    "invalidCheckout": "Commande invalide. Veuillez réessayer.",
+    "orderPlaced": "Commande passée",
+    "successfully": "avec succès !",
+    "thankYou": "Merci pour votre commande. Nous vous contacterons prochainement pour confirmer votre commande.",
+    "goToOrders": "Voir mes commandes"
   },
 
   "PaymentFailed": {
@@ -162,7 +164,9 @@
     "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "loading": "Déconnexion...",
     "success": "Déconnexion réussie",
-    "error": "Échec de la déconnexion"
+    "error": "Échec de la déconnexion",
+    "confirmTitle": "Confirmer la déconnexion",
+    "cancel": "Annuler"
   },
 
   "Products": {

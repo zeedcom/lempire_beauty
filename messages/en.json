@@ -32,9 +32,11 @@
   },
 
   "OrderSuccess": {
-    "title": "Your Order Has Been Successfully Placed",
-    "goToOrders": "Go To Orders Page",
-    "imageAlt": "Payment successful"
+    "invalidCheckout": "Invalid checkout. Please try again.",
+    "orderPlaced": "Order placed",
+    "successfully": "successfully!",
+    "thankYou": "Thank you for your order. We will contact you shortly to confirm your order.",
+    "goToOrders": "View my orders"
   },
 
   "PaymentFailed": {
@@ -145,6 +147,8 @@
   "language": "Language"
 },"Logout": {
   "button": "Logout",
+  "confirmTitle": "Confirm logout",
+  "cancel": "Cancel",
   "confirm": "Are you sure you want to log out?",
   "loading": "Logging out...",
   "success": "Successfully logged out",
