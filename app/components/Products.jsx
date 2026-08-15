@@ -43,7 +43,7 @@ export function ProductCard({ product }) {
     <div className="flex flex-col gap-3 border p-4 rounded-lg">
 
       {/* Product Image */}
-
+     <Link href={`/products/${product?.id}`}>
       <div className="relative w-full">
         <img
           src={product?.featureImageURL}
@@ -59,7 +59,7 @@ export function ProductCard({ product }) {
           </AuthContextProvider>
         </div>
       </div>
-
+    </Link>
       {/* Product Title */}
 
       <Link href={`/products/${product?.id}`}>
