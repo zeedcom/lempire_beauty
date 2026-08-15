@@ -153,7 +153,8 @@
     "home": "Accueil",
     "contact": "Contact",
     "searchProducts": "Rechercher des produits",
-    "myAccount": "Mon compte"
+    "myAccount": "Mon compte",
+    "language": "Langue"
   },
 
   "Logout": {

@@ -141,7 +141,8 @@
   "home": "Home",
   "contact": "Contact",
   "searchProducts": "Search Products",
-  "myAccount": "My Account"
+  "myAccount": "My Account",
+  "language": "Language"
 },"Logout": {
   "button": "Logout",
   "confirm": "Are you sure you want to log out?",

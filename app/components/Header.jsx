@@ -1,8 +1,16 @@
 "use client";
 
-import { Search, UserCircle2 } from "lucide-react";
+import {
+  Search,
+  UserCircle2,
+  Languages,
+} from "lucide-react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import {
+  useLocale,
+  useTranslations,
+} from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
 
 import LogoutButton from "./LogoutButton";
 import AuthContextProvider from "@/contexts/AuthContext";
@@ -11,6 +19,10 @@ import AdminButton from "./AdminButton";
 
 export default function Header() {
   const t = useTranslations("Header");
+
+  const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const menuList = [
     {
@@ -23,12 +35,46 @@ export default function Header() {
     },
   ];
 
+  const languages = [
+    {
+      code: "en",
+      name: "English",
+      short: "EN",
+    },
+    {
+      code: "fr",
+      name: "Français",
+      short: "FR",
+    },
+    {
+      code: "ar",
+      name: "العربية",
+      short: "AR",
+    },
+  ];
+
+  const changeLanguage = (newLocale) => {
+    if (newLocale === locale) return;
+
+    // Remove current locale from pathname
+    const pathnameWithoutLocale = pathname.replace(
+      new RegExp(`^/${locale}`),
+      ""
+    );
+
+    // Make sure we have "/"
+    const newPath =
+      pathnameWithoutLocale || "/";
+
+    router.push(`/${newLocale}${newPath}`);
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-white bg-opacity-65 backdrop-blur-2xl py-3 px-4 md:py-4 md:px-16 border-b flex items-center justify-between">
 
       {/* Logo */}
 
-      <Link href="/">
+      <Link href={`/${locale}`}>
         <img
           className="h-10 md:h-14 w-auto"
           src="/logo.png"
@@ -39,10 +85,10 @@ export default function Header() {
       {/* Desktop Menu */}
 
       <div className="hidden md:flex gap-2 items-center font-semibold">
-        {menuList?.map((item) => {
+        {menuList.map((item) => {
           return (
             <Link
-              href={item.link}
+              href={`/${locale}${item.link}`}
               key={item.link}
             >
               <button className="text-sm px-4 py-2 rounded-lg hover:bg-gray-50">
@@ -57,6 +103,73 @@ export default function Header() {
 
       <div className="flex items-center gap-1">
 
+        {/* Language Switcher */}
+
+        <div className="relative group">
+          <button
+            type="button"
+            title={t("language")}
+            aria-label={t("language")}
+            className="h-8 px-2 flex items-center gap-1 rounded-full hover:bg-gray-50"
+          >
+            <Languages size={15} />
+
+            <span className="text-xs font-semibold uppercase">
+              {locale}
+            </span>
+          </button>
+
+          {/* Dropdown */}
+
+          <div
+            className="
+              absolute
+              right-0
+              top-full
+              pt-2
+              hidden
+              group-hover:block
+              z-50
+            "
+          >
+            <div className="w-36 rounded-lg border bg-white shadow-lg p-1">
+
+              {languages.map((language) => (
+                <button
+                  key={language.code}
+                  type="button"
+                  onClick={() =>
+                    changeLanguage(language.code)
+                  }
+                  className={`
+                    w-full
+                    flex
+                    items-center
+                    justify-between
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    transition
+                    ${
+                      locale === language.code
+                        ? "bg-gray-100 font-semibold"
+                        : "hover:bg-gray-50"
+                    }
+                  `}
+                >
+                  <span>{language.name}</span>
+
+                  <span className="text-xs text-gray-400 uppercase">
+                    {language.short}
+                  </span>
+                </button>
+              ))}
+
+            </div>
+          </div>
+        </div>
+
         {/* Admin */}
 
         <AuthContextProvider>
@@ -65,7 +178,7 @@ export default function Header() {
 
         {/* Search */}
 
-        <Link href="/search">
+        <Link href={`/${locale}/search`}>
           <button
             title={t("searchProducts")}
             aria-label={t("searchProducts")}
@@ -83,7 +196,7 @@ export default function Header() {
 
         {/* Account */}
 
-        <Link href="/account">
+        <Link href={`/${locale}/account`}>
           <button
             title={t("myAccount")}
             aria-label={t("myAccount")}
