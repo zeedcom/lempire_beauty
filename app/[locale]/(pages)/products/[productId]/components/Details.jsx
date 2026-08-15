@@ -32,9 +32,9 @@ export default async function Details({ product }) {
       </h2>
 
       <h3 className="text-green-500 font-bold text-lg">
-        ₹ {product?.salePrice}{" "}
+        DZD {product?.salePrice}{" "}
         <span className="line-through text-gray-700 text-sm">
-          ₹ {product?.price}
+          DZD {product?.price}
         </span>
       </h3>
 

@@ -173,10 +173,10 @@ function Row({ item, index }) {
       <td className="border-y bg-white px-3 py-2  whitespace-nowrap">
         {item?.salePrice < item?.price && (
           <span className="text-xs text-gray-500 line-through">
-            ₹ {item?.price}
+            DZD {item?.price}
           </span>
         )}{" "}
-        ₹ {item?.salePrice}
+        DZD {item?.salePrice}
       </td>
       <td className="border-y bg-white px-3 py-2">{item?.stock}</td>
       <td className="border-y bg-white px-3 py-2">{item?.orders ?? 0}</td>
