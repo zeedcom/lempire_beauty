@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "SHIFA",
-  description: "Create By ZEEDCOM",
+  title: "Zeedcom",
+  description: "Zeedcom Store Create By ZEEDCOM",
 };
 
 export default function RootLayout({ children }) {
