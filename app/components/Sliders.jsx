@@ -19,30 +19,31 @@ export default function FeaturedProductSlider({ featuredProducts }) {
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: "url('/slider-bg.png')",
+  }}>
       <Slider {...settings}>
         {featuredProducts?.map((product) => {
           return (
             <div key={product?.id}>
-              <div className="flex flex-col-reverse md:flex-row gap-4 bg-[#f8f8f8] p-5 md:px-24 md:py-20 w-full">
+              <div className="flex flex-col-reverse md:flex-row gap-4  p-5 md:px-24 md:py-20 w-full">
 
                 {/* Content */}
 
                 <div className="flex-1 flex flex-col md:gap-10 gap-4">
 
-                  <h2 className="text-gray-500 text-xs md:text-base">
-                    {t("newFashion")}
-                  </h2>
+                  
 
                   <div className="flex flex-col gap-4">
 
                     <Link href={`/products/${product?.id}`}>
-                      <h1 className="md:text-4xl text-xl font-semibold">
+                      <h1 className="md:text-8xl text-xl font-semibold">
                         {product?.title}
                       </h1>
                     </Link>
 
-                    <h1 className="text-gray-600 md:text-sm text-xs max-w-96 line-clamp-2">
+                    <h1 className="text-gray-600 md:text-2xl text-xl max-w-96 line-clamp-2">
                       {product?.shortDescription}
                     </h1>
 
@@ -54,7 +55,7 @@ export default function FeaturedProductSlider({ featuredProducts }) {
                       <Link
                         href={`/checkout?type=buynow&productId=${product?.id}`}
                       >
-                        <button className="bg-blue-500 text-white text-xs md:text-sm px-4 py-1.5 rounded-lg">
+                        <button className="bg-[var(--color-brand-dark)]  text-white text-xs md:text-sm px-4 py-1.5 rounded-lg">
                           {t("buyNow")}
                         </button>
                       </Link>

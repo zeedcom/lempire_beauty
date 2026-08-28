@@ -81,7 +81,7 @@ export default function AddToCartButton({ productId, type }) {
         isDisabled={isLoading}
         onClick={handlClick}
         variant="bordered"
-        color="primary"
+        color="#e24c7a"
         size="sm"
       >
         {!isAdded && (

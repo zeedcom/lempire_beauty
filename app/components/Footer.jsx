@@ -8,14 +8,14 @@ export default function Footer() {
 
   return (
     <footer
-      className="flex flex-col gap-3 w-full bg-blue-100 border-t p-5 md:p-10"
+      className="flex flex-col gap-3 w-full  border-t p-5 md:p-10"
     >
       <div className="border-b w-full flex flex-col md:flex-row md:justify-between gap-3">
 
         {/* Logo */}
         <div className="flex">
           <img
-            className="h-8"
+            className="h-32"
             src="/logo.png"
             alt="Logo"
           />
@@ -30,7 +30,7 @@ export default function Footer() {
               className="text-blue-500"
             />
             <h2 className="text-sm text-gray-600">
-              +213 541406883
+              +213 XXXXXXXXX
             </h2>
           </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
       {/* Copyright */}
       <div className="flex justify-center w-full">
         <h3 className="text-xs text-gray-700">
-          © 2024 . {t("rights")}
+          © 2026 . {t("rights")}
         </h3>
       </div>
     </footer>

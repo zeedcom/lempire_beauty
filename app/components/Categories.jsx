@@ -29,13 +29,7 @@ export default function Categories({ categories }) {
           slidesToScroll: Math.min(3, categories.length),
         },
       },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: Math.min(2, categories.length),
-          slidesToScroll: Math.min(2, categories.length),
-        },
-      },
+      
     ],
   };
 
@@ -44,43 +38,38 @@ export default function Categories({ categories }) {
   }
 
   return (
-    <div className="flex flex-col gap-8 justify-center overflow-hidden md:p-10 p-5">
+   <div className="flex flex-col gap-8 justify-center overflow-hidden py-5 px-8 md:py-10 md:px-16">
 
-      {/* Title */}
-      <div className="flex justify-center w-full">
-        <h1 className="text-lg font-semibold">
-          {t("title")}
-        </h1>
-      </div>
+     <div className="mb-6 text-center">
+      <h2 className="text-2xl font-bold">
+        {t("title")}
+      </h2>
+    </div>
 
       {/* Categories */}
-      <Slider {...settings}>
-        {categories?.map((category) => (
-          <Link
-            href={`/categories/${category.id}`}
-            key={category.id}
-          >
-            <div className="px-2">
-              <div className="flex flex-col gap-2 items-center justify-center">
-
-                <div className="md:h-32 md:w-32 h-24 w-24 rounded-full md:p-5 p-2 border overflow-hidden">
-                  <img
-                    src={category.imageURL}
-                    alt={category.name}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-
-                <h1 className="font-semibold">
-                  {category.name}
-                </h1>
-
-              </div>
+     <Slider {...settings}>
+  {categories?.map((category) => (
+    <div key={category.id}>
+      <Link href={`/categories/${category.id}`}>
+        <div className="py-2">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full sm:h-32 sm:w-32 md:h-48 md:w-48">
+              <img
+                src={category.imageURL}
+                alt={category.name}
+                className="h-full w-full object-contain"
+              />
             </div>
-          </Link>
-        ))}
-      </Slider>
 
+            <h1 className="font-semibold">
+              {category.name}
+            </h1>
+          </div>
+        </div>
+      </Link>
+    </div>
+  ))}
+</Slider>
     </div>
   );
 }

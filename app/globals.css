@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-brand: #F1B6BF;
+  --color-brand-light: #f6e7e2;
+  --color-brand-dark: #e24c7a;
+}

@@ -1,4 +1,23 @@
 {
+  "Perks": {
+    "freeShipping": {
+      "title": "Free Shipping",
+      "description": "Free delivery on orders over 10,000 DA"
+    },
+    "authentic": {
+      "title": "100% Authentic",
+      "description": "Original beauty products you can trust"
+    },
+    "packed": {
+      "title": "Carefully Packed",
+      "description": "Your order is packed with care"
+    },
+    "beautySelection": {
+      "title": "Beauty Selection",
+      "description": "Discover products selected for your beauty routine"
+    }
+  }
+,
   "ForgotPassword": {
     "title": "Forgot Password",
     "emailPlaceholder": "Enter Your Email",

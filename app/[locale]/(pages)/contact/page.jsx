@@ -50,7 +50,7 @@ function Contact() {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gray-900/70" />
+        <div className="absolute inset-0 bg-[#e24c7a/70]" />
 
         {/* Modal */}
         <div
@@ -117,7 +117,7 @@ function Contact() {
           h-1/2
           lg:h-[45%]
           xl:h-1/2
-          bg-[#f3f4fe]
+          bg-[var(--color-brand-light)]
           top-0
           left-0
         "
@@ -142,7 +142,7 @@ function Contact() {
 
                 {/* Location */}
                 <div className="flex max-w-full w-[330px] mb-8">
-                  <div className="text-[32px] text-primary mr-6">
+                  <div className="text-[32px] text-[var(--color-brand-dark)] mr-6">
                     <svg
                       width="29"
                       height="35"
@@ -167,7 +167,7 @@ function Contact() {
 
                 {/* Email */}
                 <div className="flex max-w-full w-[330px] mb-8">
-                  <div className="text-[32px] text-primary mr-6">
+                  <div className="text-[32px] text-[var(--color-brand-dark)] mr-6">
                     <svg
                       width="34"
                       height="25"
@@ -232,7 +232,7 @@ function Contact() {
                     required
                     className="
                       w-full
-                      border-0 border-b border-[#f1f1f1]
+                      border-0 border-b border-[var(--color-brand-dark)]
                       focus:border-primary focus:outline-none
                       py-4
                     "
@@ -256,7 +256,7 @@ function Contact() {
                     required
                     className="
                       w-full
-                      border-0 border-b border-[#f1f1f1]
+                      border-0 border-b border-[var(--color-brand-dark)]
                       focus:border-primary focus:outline-none
                       py-4
                     "
@@ -280,7 +280,7 @@ function Contact() {
                     required
                     className="
                       w-full
-                      border-0 border-b border-[#f1f1f1]
+                      border-0 border-b border-[var(--color-brand-dark)]
                       focus:border-primary focus:outline-none
                       py-4
                     "
@@ -304,8 +304,8 @@ function Contact() {
                     required
                     className="
                       w-full
-                      border-0 border-b border-[#f1f1f1]
-                      focus:border-primary focus:outline-none
+                      border-0 border-b border-[var(--color-brand-light)]
+                      focus:border-[var(--color-brand-dark)] focus:outline-none
                       py-4
                       resize-none
                     "
@@ -332,10 +332,10 @@ function Contact() {
                       px-6
                       rounded
                       text-white
-                      bg-primary
+                      bg-[var(--color-brand-dark)]
                       text-base
                       font-medium
-                      hover:bg-dark
+                      hover:bg-[var(--color-brand-light)]
                       transition
                       duration-300
                       ease-in-out

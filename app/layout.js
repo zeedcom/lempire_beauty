@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import OpenExternalBrowser from "./components/OpenExternalBrowser";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Zeedcom",
-  description: "Zeedcom Store Create By ZEEDCOM",
+  title: "lempire beauty",
+  description: "lempire beauty Store Create By ZEEDCOM",
 };
 
 export default function RootLayout({ children }) {
@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
       >
         <Toaster />
         <NextUIProvider>{children}</NextUIProvider>
+        <OpenExternalBrowser />
       </body>
     </html>
   );

@@ -70,6 +70,7 @@ export default function Header() {
   };
 
   return (
+   
     <nav className="sticky top-0 z-50 bg-white bg-opacity-65 backdrop-blur-2xl py-3 px-4 md:py-4 md:px-16 border-b flex items-center justify-between">
 
       {/* Logo */}

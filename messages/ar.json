@@ -1,4 +1,23 @@
 {
+  
+  "Perks": {
+    "freeShipping": {
+      "title": "توصيل مجاني",
+      "description": "توصيل مجاني للطلبات التي تتجاوز 10,000 دج"
+    },
+    "authentic": {
+      "title": "منتجات أصلية 100%",
+      "description": "منتجات تجميل أصلية يمكنك الوثوق بها"
+    },
+    "packed": {
+      "title": "تغليف بعناية",
+      "description": "نجهز طلبك بعناية فائقة"
+    },
+    "beautySelection": {
+      "title": "اختيارات مميزة للجمال",
+      "description": "اكتشفي منتجات مختارة بعناية لروتين جمالك"
+    }
+  },
   "ForgotPassword": {
     "title": "نسيت كلمة المرور",
     "emailPlaceholder": "أدخل بريدك الإلكتروني",

@@ -59,7 +59,7 @@ export default function Collections({ collections }) {
               className="px-2"
               key={`${collection?.id}-${index}`}
             >
-              <div className="flex gap-4 bg-gradient-to-tr to-[#d9e2f1] from-[#cce7f5] p-7 w-full rounded-xl h-full">
+              <div className="flex gap-4 bg-gradient-to-tr to-[var(--color-brand)] from-[var(--color-brand-light)] p-7 w-full rounded-xl h-full">
 
                 <div className="w-full flex flex-col gap-2">
 
@@ -80,7 +80,7 @@ export default function Collections({ collections }) {
                     <Link
                       href={`/collections/${collection?.id}`}
                     >
-                      <button className="bg-blue-500 text-white text-xs md:text-sm px-4 py-2 rounded-lg">
+                      <button className="bg-[var(--color-brand-dark)] text-white text-xs md:text-sm px-4 py-2 rounded-lg">
                         {t("shopNow")}
                       </button>
                     </Link>
