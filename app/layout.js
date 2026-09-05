@@ -29,7 +29,6 @@ export default function RootLayout({ children }) {
       >
         <Toaster />
         <NextUIProvider>{children}</NextUIProvider>
-        <OpenExternalBrowser />
       </body>
     </html>
   );
