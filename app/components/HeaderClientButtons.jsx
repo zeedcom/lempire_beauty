@@ -36,31 +36,7 @@ export default function HeaderClientButtons() {
           </button>
         )}
       </Link>
-      <Link href={`/cart`}>
-        {(data?.carts?.length ?? 0) != 0 && (
-          <Badge
-            variant="solid"
-            size="sm"
-            className="text-white bg-red-500 text-[8px]"
-            content={data?.carts?.length ?? 0}
-          >
-            <button
-              title="My Cart"
-              className="h-8 w-8 flex justify-center items-center rounded-full hover:bg-gray-50"
-            >
-              <ShoppingCart size={14} />
-            </button>
-          </Badge>
-        )}
-        {(data?.carts?.length ?? 0) === 0 && (
-          <button
-            title="My Cart"
-            className="h-8 w-8 flex justify-center items-center rounded-full hover:bg-gray-50"
-          >
-            <ShoppingCart size={14} />
-          </button>
-        )}
-      </Link>
+      
     </div>
   );
 }

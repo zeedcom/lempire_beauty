@@ -5,8 +5,12 @@ import {
   UserCircle2,
   Languages,
   MessageCircle,
+  ShoppingCart,
 } from "lucide-react";
 import Link from "next/link";
+import { useCart } from "../hooks/useCart";
+
+import { Badge } from "@nextui-org/react";
 import {
   useLocale,
   useTranslations,
@@ -20,7 +24,8 @@ import AdminButton from "./AdminButton";
 
 export default function Header() {
   const t = useTranslations("Header");
-
+  const { cart } = useCart();
+  const count = cart?.length ?? 0;
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -217,6 +222,30 @@ export default function Header() {
         <AuthContextProvider>
           <HeaderClientButtons />
         </AuthContextProvider>
+            <Link href="/cart">
+      {count !== 0 ? (
+        <Badge
+          variant="solid"
+          size="sm"
+          className="text-white bg-red-500 text-[8px]"
+          content={count}
+        >
+          <button
+            title="My Cart"
+            className="h-8 w-8 flex justify-center items-center rounded-full hover:bg-gray-50"
+          >
+            <ShoppingCart size={14} />
+          </button>
+        </Badge>
+      ) : (
+        <button
+          title="My Cart"
+          className="h-8 w-8 flex justify-center items-center rounded-full hover:bg-gray-50"
+        >
+          <ShoppingCart size={14} />
+        </button>
+      )}
+    </Link>
 
         {/* Account */}
 

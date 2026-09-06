@@ -11,9 +11,12 @@ import {
  * Calculate products total
  */
 const calculateProductsTotal = (products) => {
-  return products?.reduce((total, item) => {
-    const price = Number(item?.product?.salePrice) || 0;
-    const quantity = Number(item?.quantity) || 1;
+  return products.reduce((total, item) => {
+    const price =
+      Number(item?.product?.salePrice) || 0;
+
+    const quantity =
+      Number(item?.quantity) || 1;
 
     return total + price * quantity;
   }, 0);
@@ -21,49 +24,62 @@ const calculateProductsTotal = (products) => {
 
 /**
  * Create Stripe Checkout Session
+ * Guest checkout - no authentication required
  */
 export const createCheckoutAndGetURL = async ({
-  uid,
   products,
   address,
   shippingPrice = 0,
   totalPrice,
 }) => {
-  if (!uid) {
-    throw new Error("User is not authenticated");
-  }
-
+  /*
+   * Validate products
+   */
   if (!products || products.length === 0) {
     throw new Error("Product List Is Empty");
   }
 
-  const checkoutId = doc(collection(db, "ids")).id;
-
-  const ref = doc(
-    db,
-    `users/${uid}/checkout_sessions/${checkoutId}`
-  );
-
-  const productTotal = calculateProductsTotal(products);
-
-  const shipping = Number(shippingPrice) || 0;
-
-  const finalTotal =
-    Number(totalPrice) || productTotal + shipping;
+  /*
+   * Generate checkout ID
+   */
+  const checkoutId = doc(
+    collection(db, "checkout_sessions")
+  ).id;
 
   /*
-   * Products line items
+   * Checkout document reference
    */
-  const line_items = [];
+  const ref = doc(
+    db,
+    "checkout_sessions",
+    checkoutId
+  );
 
-  products.forEach((item) => {
+  /*
+   * Calculate totals
+   */
+  const productTotal =
+    calculateProductsTotal(products);
+
+  const shipping =
+    Number(shippingPrice) || 0;
+
+  const finalTotal =
+    Number(totalPrice) ||
+    productTotal + shipping;
+
+  /*
+   * Stripe line items
+   */
+  const line_items = products.map((item) => {
     const product = item?.product;
 
-    const salePrice = Number(product?.salePrice) || 0;
+    const salePrice =
+      Number(product?.salePrice) || 0;
 
-    line_items.push({
+    return {
       price_data: {
-        currency: "inr",
+        currency: "dzd",
 
         product_data: {
           name: product?.title ?? "",
@@ -72,7 +88,7 @@ export const createCheckoutAndGetURL = async ({
             product?.shortDescription ?? "",
 
           images: [
-            product?.featureImageURL ??
+            product?.featureImageURL ||
               `${process.env.NEXT_PUBLIC_DOMAIN}/logo.png`,
           ],
 
@@ -84,20 +100,22 @@ export const createCheckoutAndGetURL = async ({
           },
         },
 
-        unit_amount: Math.round(salePrice * 100),
+        unit_amount:
+          Math.round(salePrice * 100),
       },
 
-      quantity: Number(item?.quantity) || 1,
-    });
+      quantity:
+        Number(item?.quantity) || 1,
+    };
   });
 
   /*
-   * Add shipping as a line item
+   * Add shipping as Stripe line item
    */
   if (shipping > 0) {
     line_items.push({
       price_data: {
-        currency: "inr",
+        currency: "dzd",
 
         product_data: {
           name: "Shipping",
@@ -109,7 +127,8 @@ export const createCheckoutAndGetURL = async ({
           },
         },
 
-        unit_amount: Math.round(shipping * 100),
+        unit_amount:
+          Math.round(shipping * 100),
       },
 
       quantity: 1,
@@ -121,6 +140,8 @@ export const createCheckoutAndGetURL = async ({
    */
   await setDoc(ref, {
     id: checkoutId,
+
+    isGuest: true,
 
     payment_method_types: ["card"],
 
@@ -136,7 +157,8 @@ export const createCheckoutAndGetURL = async ({
 
     metadata: {
       checkoutId,
-      uid,
+
+      isGuest: "true",
 
       address: JSON.stringify(address),
 
@@ -157,70 +179,40 @@ export const createCheckoutAndGetURL = async ({
   });
 
   /*
-   * Wait for Firebase Stripe extension
+   * Wait for checkout URL
    */
-  await new Promise((resolve) =>
-    setTimeout(resolve, 2000)
-  );
+  const delays = [2000, 3000, 5000];
 
-  let checkoutSession = await getDoc(ref);
-
-  if (!checkoutSession.exists()) {
-    throw new Error("Checkout Session Not Found");
-  }
-
-  /*
-   * Check error
-   */
-  if (checkoutSession.data()?.error?.message) {
-    throw new Error(
-      checkoutSession.data().error.message
+  for (const delay of delays) {
+    await new Promise((resolve) =>
+      setTimeout(resolve, delay)
     );
-  }
 
-  /*
-   * Return URL
-   */
-  if (checkoutSession.data()?.url) {
-    return checkoutSession.data().url;
-  }
+    const checkoutSession =
+      await getDoc(ref);
 
-  /*
-   * Second attempt
-   */
-  await new Promise((resolve) =>
-    setTimeout(resolve, 3000)
-  );
+    if (!checkoutSession.exists()) {
+      continue;
+    }
 
-  checkoutSession = await getDoc(ref);
+    const sessionData =
+      checkoutSession.data();
 
-  if (checkoutSession.data()?.error?.message) {
-    throw new Error(
-      checkoutSession.data().error.message
-    );
-  }
+    /*
+     * Stripe extension error
+     */
+    if (sessionData?.error?.message) {
+      throw new Error(
+        sessionData.error.message
+      );
+    }
 
-  if (checkoutSession.data()?.url) {
-    return checkoutSession.data().url;
-  }
-
-  /*
-   * Third attempt
-   */
-  await new Promise((resolve) =>
-    setTimeout(resolve, 5000)
-  );
-
-  checkoutSession = await getDoc(ref);
-
-  if (checkoutSession.data()?.error?.message) {
-    throw new Error(
-      checkoutSession.data().error.message
-    );
-  }
-
-  if (checkoutSession.data()?.url) {
-    return checkoutSession.data().url;
+    /*
+     * Checkout URL generated
+     */
+    if (sessionData?.url) {
+      return sessionData.url;
+    }
   }
 
   throw new Error(
@@ -231,18 +223,17 @@ export const createCheckoutAndGetURL = async ({
 
 /**
  * Create Cash On Delivery Checkout
+ * Guest checkout - no authentication required
  */
 export const createCheckoutCODAndGetId = async ({
-  uid,
   products,
   address,
   shippingPrice = 0,
   totalPrice,
 }) => {
-  if (!uid) {
-    throw new Error("User is not authenticated");
-  }
-
+  /*
+   * Validate products
+   */
   if (!products || products.length === 0) {
     throw new Error("Product List Is Empty");
   }
@@ -251,37 +242,43 @@ export const createCheckoutCODAndGetId = async ({
    * Generate COD checkout ID
    */
   const checkoutId =
-    `cod_${doc(collection(db, "ids")).id}`;
+    `cod_${doc(
+      collection(db, "checkout_sessions_cod")
+    ).id}`;
 
+  /*
+   * COD checkout document reference
+   */
   const ref = doc(
     db,
-    `users/${uid}/checkout_sessions_cod/${checkoutId}`
+    "checkout_sessions_cod",
+    checkoutId
   );
 
   /*
-   * Calculate product total
+   * Calculate totals
    */
-  const productTotal = calculateProductsTotal(products);
+  const productTotal =
+    calculateProductsTotal(products);
 
-  /*
-   * Shipping price
-   */
-  const shipping = Number(shippingPrice) || 0;
+  const shipping =
+    Number(shippingPrice) || 0;
 
-  /*
-   * Final total
-   */
   const finalTotal =
     Number(totalPrice) ||
     productTotal + shipping;
 
   /*
-   * Products
+   * Build order products
    */
-  const line_items = [];
+  const line_items = products.map((item) => {
+    const price =
+      Number(item?.product?.salePrice) || 0;
 
-  products.forEach((item) => {
-    line_items.push({
+    const quantity =
+      Number(item?.quantity) || 1;
+
+    return {
       productId:
         item?.id ??
         item?.product?.id ??
@@ -294,19 +291,16 @@ export const createCheckoutCODAndGetId = async ({
         item?.product?.shortDescription ?? "",
 
       image:
-        item?.product?.featureImageURL ??
+        item?.product?.featureImageURL ||
         `${process.env.NEXT_PUBLIC_DOMAIN}/logo.png`,
 
-      price:
-        Number(item?.product?.salePrice) || 0,
+      price,
 
-      quantity:
-        Number(item?.quantity) || 1,
+      quantity,
 
       subtotal:
-        (Number(item?.product?.salePrice) || 0) *
-        (Number(item?.quantity) || 1),
-    });
+        price * quantity,
+    };
   });
 
   /*
@@ -314,6 +308,8 @@ export const createCheckoutCODAndGetId = async ({
    */
   await setDoc(ref, {
     id: checkoutId,
+
+    isGuest: true,
 
     line_items,
 
@@ -323,20 +319,25 @@ export const createCheckoutCODAndGetId = async ({
 
     totalPrice: finalTotal,
 
-    address,
+    address: address ?? {},
 
     metadata: {
       checkoutId,
 
-      uid,
+      isGuest: "true",
 
-      address: JSON.stringify(address),
+      address: JSON.stringify(
+        address ?? {}
+      ),
 
-      productTotal: String(productTotal),
+      productTotal:
+        String(productTotal),
 
-      shippingPrice: String(shipping),
+      shippingPrice:
+        String(shipping),
 
-      totalPrice: String(finalTotal),
+      totalPrice:
+        String(finalTotal),
     },
 
     paymentMethod: "cash_on_delivery",

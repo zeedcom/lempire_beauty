@@ -6,31 +6,34 @@ import { admin, adminDB } from "@/lib/firebase_admin";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-
 /**
  * Get COD checkout
+ * NOTE: checkout_sessions_cod is a TOP-LEVEL collection now (guest checkout),
+ * not a subcollection — so query it directly instead of via collectionGroup.
  */
 const fetchCheckout = async (checkoutId) => {
-  const list = await adminDB
-    .collectionGroup("checkout_sessions_cod")
-    .where("id", "==", checkoutId)
-    .get();
+  const ref = adminDB.doc(`checkout_sessions_cod/${checkoutId}`);
+  const snap = await ref.get();
 
-  if (list.docs.length === 0) {
+  if (!snap.exists) {
     throw new Error("Invalid Checkout ID");
   }
 
-  return list.docs[0].data();
+  return snap.data();
 };
-
 
 /**
  * Process COD order
+ * Supports both guest orders (uid = null) and authenticated orders.
  */
 const processOrder = async ({ checkout }) => {
-  const orderRef = adminDB.doc(
-    `orders/${checkout?.id}`
-  );
+  const checkoutId = checkout?.id;
+
+  if (!checkoutId) {
+    throw new Error("Invalid Checkout");
+  }
+
+  const orderRef = adminDB.doc(`orders/${checkoutId}`);
 
   const order = await orderRef.get();
 
@@ -38,24 +41,21 @@ const processOrder = async ({ checkout }) => {
     return false;
   }
 
-  const uid = checkout?.metadata?.uid;
-
-  if (!uid) {
-    throw new Error("User ID not found");
-  }
+  // Guest checkout: uid may legitimately be null/undefined
+  const uid = checkout?.metadata?.uid || checkout?.uid || null;
 
   /*
    * Get totals from checkout
+   *
+   * SECURITY NOTE: these values come from the checkout document as
+   * written by the client. Until server-side price revalidation is
+   * added (recomputing from products/ and communes/ at write time),
+   * this trusts client-submitted totals.
    */
-  const productTotal =
-    Number(checkout?.productTotal) || 0;
-
-  const shippingPrice =
-    Number(checkout?.shippingPrice) || 0;
-
+  const productTotal = Number(checkout?.productTotal) || 0;
+  const shippingPrice = Number(checkout?.shippingPrice) || 0;
   const totalPrice =
-    Number(checkout?.totalPrice) ||
-    productTotal + shippingPrice;
+    Number(checkout?.totalPrice) || productTotal + shippingPrice;
 
   /*
    * Save order
@@ -72,13 +72,14 @@ const processOrder = async ({ checkout }) => {
     },
 
     uid: uid,
+    isGuest: !uid,
 
-    id: checkout?.id,
+    id: checkoutId,
 
     paymentMode: "cod",
+    status: "pending",
 
-    timestampCreate:
-      admin.firestore.Timestamp.now(),
+    timestampCreate: admin.firestore.Timestamp.now(),
   });
 
   /*
@@ -87,65 +88,45 @@ const processOrder = async ({ checkout }) => {
   const productList =
     checkout?.line_items?.map((item) => ({
       productId: item?.productId,
-      quantity:
-        Number(item?.quantity) || 1,
+      quantity: Number(item?.quantity) || 1,
     })) ?? [];
 
   /*
-   * Get user
+   * Remove products from cart — only for authenticated users.
+   * Guest carts live in localStorage on the client; this server page
+   * can't touch them. The client should clear localStorage on success.
    */
-  const userRef = adminDB.doc(
-    `users/${uid}`
-  );
+  if (uid) {
+    const userRef = adminDB.doc(`users/${uid}`);
+    const user = await userRef.get();
 
-  const user = await userRef.get();
-
-  /*
-   * Remove products from cart
-   */
-  const productIdsList =
-    productList
+    const productIdsList = productList
       .map((item) => item.productId)
       .filter(Boolean);
 
-  const newCartList =
-    (user?.data()?.carts ?? []).filter(
-      (cartItem) =>
-        !productIdsList.includes(
-          cartItem?.id
-        )
+    const newCartList = (user?.data()?.carts ?? []).filter(
+      (cartItem) => !productIdsList.includes(cartItem?.id)
     );
 
-  await userRef.set(
-    {
-      carts: newCartList,
-    },
-    {
-      merge: true,
-    }
-  );
+    await userRef.set(
+      { carts: newCartList },
+      { merge: true }
+    );
+  }
 
   /*
-   * Update product orders
+   * Update product orders count
    */
-  const validProducts =
-    productList.filter(
-      (item) => item?.productId
-    );
+  const validProducts = productList.filter((item) => item?.productId);
 
   if (validProducts.length > 0) {
     const batch = adminDB.batch();
 
     validProducts.forEach((item) => {
-      const productRef = adminDB.doc(
-        `products/${item.productId}`
-      );
+      const productRef = adminDB.doc(`products/${item.productId}`);
 
       batch.update(productRef, {
-        orders:
-          admin.firestore.FieldValue.increment(
-            item.quantity
-          ),
+        orders: admin.firestore.FieldValue.increment(item.quantity),
       });
     });
 
@@ -155,11 +136,7 @@ const processOrder = async ({ checkout }) => {
   return true;
 };
 
-
-export default async function Page({
-  params,
-  searchParams,
-}) {
+export default async function Page({ params, searchParams }) {
   const { locale } = await params;
 
   const t = await getTranslations({
@@ -167,66 +144,61 @@ export default async function Page({
     namespace: "OrderSuccess",
   });
 
-  const checkout_id =
-    searchParams?.checkout_id;
+  const checkout_id = searchParams?.checkout_id;
 
-  /*
-   * Check checkout ID
-   */
   if (!checkout_id) {
     return (
       <>
         <Header />
-
         <main className="min-h-[60vh] flex items-center justify-center">
           <h1 className="text-xl font-semibold">
             {t("invalidCheckout")}
           </h1>
         </main>
-
         <Footer />
       </>
     );
   }
 
-  /*
-   * Fetch checkout
-   */
-  const checkout =
-    await fetchCheckout(checkout_id);
+  try {
+    const checkout = await fetchCheckout(checkout_id);
+    await processOrder({ checkout });
+  } catch (error) {
+    console.error("COD checkout error:", error);
 
-  /*
-   * Process order
-   */
-  await processOrder({
-    checkout,
-  });
+    return (
+      <>
+        <Header />
+        <main className="min-h-[60vh] flex items-center justify-center">
+          <h1 className="text-xl font-semibold">
+            {t("invalidCheckout")}
+          </h1>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Header />
 
       <main className="min-h-[60vh] flex flex-col items-center justify-center gap-5 text-center px-5">
-
         <h1 className="text-3xl font-bold">
           {t("orderPlaced")}{" "}
-
           <span className="text-green-600">
             {t("successfully")}
           </span>
         </h1>
 
-        <p className="text-gray-500">
-          {t("thankYou")}
-        </p>
+        <p className="text-gray-500">{t("thankYou")}</p>
 
         <Link
-          href={`/${locale}/account`}
+          href={`/${locale}`}
           className="bg-black text-white px-6 py-3 rounded-lg"
         >
           {t("goToOrders")}
         </Link>
-
       </main>
 
       <Footer />
